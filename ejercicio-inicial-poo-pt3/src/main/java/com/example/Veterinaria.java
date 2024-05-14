@@ -71,8 +71,8 @@ public class Veterinaria {
         return horario;
     }
 
-    public void setHorario(Horario horario) {
-        this.horario = horario;
+    public void setHorario(String horaDeAtencion, String diasDeAtencion) {
+        this.horario = new Horario(horaDeAtencion, diasDeAtencion);
     }
 
     public void registrarPacientePerruno(Perro perro) {
