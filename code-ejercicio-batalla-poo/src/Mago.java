@@ -3,16 +3,12 @@ public class Mago extends Personaje {
     private int poderMagico;
 
     public Mago(String nombre, int hp, int def, int atk, int poderMagico) {
-        super(nombre, hp, def, atk, new Arma("Bastón", TipoDeDanio.MAGICO, 5));
+        super(nombre, hp, def, atk, new Arma("Bastón", TipoDeDanio.MAGICO, 7));
         this.poderMagico = poderMagico;
     }
 
     public int getPoderMagico() {
         return poderMagico;
-    }
-
-    public void setPoderMagico(int poderMagico) {
-        this.poderMagico = poderMagico;
     }
 
     @Override

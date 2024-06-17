@@ -1,23 +1,18 @@
 import java.util.Scanner;
 
 public class Juego {
-    private Scanner scanner = new Scanner(System.in);
+    private Personaje personaje1;
+    private Personaje personaje2;
+    private final Scanner scanner;
 
-    public void iniciar(Personaje personaje1, Personaje personaje2, Pocion pocion, Santuario santuario) {
-        prepararPociones(personaje1, personaje2, pocion);
-        prepararSantuario(personaje1, personaje2, santuario);
+    public Juego(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
+    public void iniciar() {
+        prepararPersonajes();
         mostrarMenu();
         combate(personaje1, personaje2);
-    }
-
-    private void prepararPociones(Personaje personaje1, Personaje personaje2, Pocion pocion) {
-        personaje1.setPocion(pocion);
-        personaje2.setPocion(pocion);
-    }
-
-    private void prepararSantuario(Personaje personaje1, Personaje personaje2, Santuario santuario) {
-        personaje1.visitarSantuario(santuario);
-        personaje2.visitarSantuario(santuario);
     }
 
     private void mostrarMenu() {
@@ -42,6 +37,8 @@ public class Juego {
     }
 
     private void turno(Personaje atacante, Personaje defensor) {
+        System.out.println();
+        atacante.usarPocion();
         int danio = atacante.atacar(defensor);
         System.out.println(atacante.getNombre() + " ataca a " + defensor.getNombre() + " y causa " + danio + " puntos de daño.");
         System.out.println(defensor.getNombre() + " tiene " + defensor.getHp() + " puntos de vida restantes.");
@@ -55,4 +52,45 @@ public class Juego {
         }
     }
 
+    private void prepararPersonajes() {
+        System.out.println("Seleccione el tipo de personaje para el Jugador 1:");
+        this.personaje1 = seleccionarPersonaje();
+        System.out.println("Seleccione el tipo de personaje para el Jugador 2:");
+        this.personaje2 = seleccionarPersonaje();
+
+        prepararSantuarios(personaje1, personaje2);
+        asignarPociones(personaje1, personaje2);
+    }
+
+    private Personaje seleccionarPersonaje() {
+        System.out.println("1. Guerrero");
+        System.out.println("2. Mago");
+        int seleccion = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.println("Ingrese el nombre del personaje:");
+        String nombre = scanner.nextLine();
+
+        switch (seleccion) {
+            case 1:
+                return new Guerrero(nombre, 100, 10, 20, 5);
+            case 2:
+                return new Mago(nombre, 80, 15, 15, 10);
+            default:
+                System.out.println("Selección inválida. Se seleccionará Guerrero por defecto.");
+                return new Guerrero(nombre, 100, 10, 20, 5);
+        }
+    }
+
+    private void prepararSantuarios(Personaje personaje1, Personaje personaje2) {
+        Santuario santuario = new Santuario("Santuario de Defensa", 10);
+        personaje1.visitarSantuario(santuario);
+        personaje2.visitarSantuario(santuario);
+    }
+
+    private void asignarPociones(Personaje personaje1, Personaje personaje2) {
+        Pocion pocion = new Pocion("Poción de Salud", 20);
+        personaje1.setPocion(pocion);
+        personaje2.setPocion(pocion);
+    }
 }

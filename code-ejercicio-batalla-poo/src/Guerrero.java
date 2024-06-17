@@ -10,10 +10,6 @@ public class Guerrero extends Personaje {
         return fuerza;
     }
 
-    public void setFuerza(int fuerza) {
-        this.fuerza = fuerza;
-    }
-
     @Override
     public int calcularDanio(Personaje personaje) {
         return this.getAtk() + this.getFuerza() + this.getArma().getAtk() - personaje.getDef();

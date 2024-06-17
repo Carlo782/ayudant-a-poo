@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public class Personaje {
+public abstract class Personaje {
     private String nombre;
     private int hp;
     private int def;
@@ -47,7 +47,6 @@ public class Personaje {
 
     public void recibirDanio(int danio) {
         this.hp -= danio;
-        usarPocion();
     }
 
     public boolean estaVivo() {
@@ -55,40 +54,33 @@ public class Personaje {
     }
 
     private boolean calcularVidaParaPocion() {
-        return this.hp < 10 && this.hp > 0;
+        return this.hp <= 10 && this.hp > 0; 
     }
+    
 
-    private void usarPocion() {
-        if (this.calcularVidaParaPocion() && this.pocion != null) {
-            this.hp += this.pocion.getRecuperacionHp();
-            this.pocion = null;
+    public void usarPocion() {
+        if (this.pocion != null && this.calcularVidaParaPocion()) { 
+            int recuperacion = this.pocion.getRecuperacionHp(); 
+            this.hp += recuperacion;
+            this.pocion = null; 
+            System.out.println(this.getNombre() + " ha usado una poción de salud! Tu vida ha aumentado en " + recuperacion + " puntos."); // Imprime el mensaje con la cantidad de recuperación guardada
         }
     }
 
     private boolean probabilidadSantuario() {
         Random ran = new Random();
-        return ran.nextBoolean();  // Corrigiendo el error en el cálculo de probabilidad
+        return ran.nextBoolean(); 
     }
 
     public void visitarSantuario(Santuario santuario) {
         if (this.probabilidadSantuario()) {
             this.def += santuario.getBeneficioDefensa();
-            System.out.println(this.getNombre()+" Ha encontrado un santuario! Tu defensa ha aumentado en " + santuario.getBeneficioDefensa() + " puntos.");
+            System.out.println(this.getNombre()+" Ha encontrado un santuario! Tu defensa ha aumentado en " + santuario.getBeneficioDefensa() + " puntos. Gracias a "+ santuario.getNombre());
         }else{
             System.out.println("Todo el camino ha estado despejado para." + this.getNombre());
         }
     }
+    public abstract int calcularDanio(Personaje personaje);
 
-    public int calcularDanio(Personaje personaje) {
-        return this.atk + this.arma.getAtk() - personaje.getDef();
-    }
-
-    public int atacar(Personaje personaje) {
-        int danio = this.calcularDanio(personaje);
-        if (danio < 0) {
-            danio = 0;
-        }
-        personaje.recibirDanio(danio);
-        return danio;
-    }
+    public abstract int atacar(Personaje personaje);
 }
