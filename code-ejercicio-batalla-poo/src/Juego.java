@@ -12,7 +12,7 @@ public class Juego {
     public void iniciar() {
         prepararPersonajes();
         mostrarMenu();
-        combate(personaje1, personaje2);
+        combate(this.personaje1, this.personaje2);
     }
 
     private void mostrarMenu() {

@@ -8,6 +8,15 @@ public abstract class Personaje {
     private Arma arma;
     private Pocion pocion;
 
+    public Personaje(String nombre, int hp, int def, int atk) {
+        this.nombre = nombre;
+        this.hp = hp;
+        this.def = def;
+        this.atk = atk;
+        this.arma = seleccionarArma();
+        
+    }
+
     public Personaje(String nombre, int hp, int def, int atk, Arma arma) {
         this.nombre = nombre;
         this.hp = hp;
@@ -45,6 +54,8 @@ public abstract class Personaje {
         this.pocion = pocion;
     }
 
+    protected abstract Arma seleccionarArma();
+
     public void recibirDanio(int danio) {
         this.hp -= danio;
     }
@@ -80,6 +91,7 @@ public abstract class Personaje {
             System.out.println("Todo el camino ha estado despejado para." + this.getNombre());
         }
     }
+    
     public abstract int calcularDanio(Personaje personaje);
 
     public abstract int atacar(Personaje personaje);

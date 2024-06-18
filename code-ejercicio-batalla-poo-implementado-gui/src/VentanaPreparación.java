@@ -23,6 +23,7 @@ public class VentanaPreparación extends JFrame {
     private JLabel arma_personaje_2;
     private JCheckBox añadirPociónCheckBox;
     private JCheckBox añadirPociónCheckBox1;
+    private JButton button1;
 
     /**
      * Constructor de la clase VentanaPreparación.
@@ -33,6 +34,7 @@ public class VentanaPreparación extends JFrame {
         setSize(500, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+
 
         add(mainPanel);
 

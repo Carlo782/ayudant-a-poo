@@ -117,7 +117,7 @@ public class VentanaCombate extends JFrame {
      * Simula que los personajes visitan un santuario antes de iniciar el combate.
      * Muestra el resultado de la visita al santuario en el área de texto.
      */
-    public void visitarSantuario() {
+    private void visitarSantuario() {
         String mensaje = juego.getPersonaje1().visitarSantuario(new Santuario("Santuario defensa", 5));
         mensaje += juego.getPersonaje2().visitarSantuario(new Santuario("Santuario defensa", 5));
         textArea2.append(mensaje);
