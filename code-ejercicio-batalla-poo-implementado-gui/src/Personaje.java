@@ -8,23 +8,15 @@ public abstract class Personaje {
     private Arma arma;
     private Pocion pocion;
 
-    public Personaje(String nombre, int hp, int def, int atk) {
+    public Personaje(String nombre, int hp, int def, int atk, String selection) {
         this.nombre = nombre;
         this.hp = hp;
         this.def = def;
         this.atk = atk;
-        this.arma = seleccionarArma();
+        this.arma = seleccionarArma(selection);
         
     }
 
-    public Personaje(String nombre, int hp, int def, int atk, Arma arma) {
-        this.nombre = nombre;
-        this.hp = hp;
-        this.def = def;
-        this.atk = atk;
-        this.arma = arma;
-        
-    }
 
     public String getNombre() {
         return nombre;
@@ -50,11 +42,15 @@ public abstract class Personaje {
         return pocion;
     }
 
+    public boolean verificarPoción(){
+        return pocion != null;
+    }
+
     public void setPocion(Pocion pocion) {
         this.pocion = pocion;
     }
 
-    protected abstract Arma seleccionarArma();
+    protected abstract Arma seleccionarArma(String selection);
 
     public void recibirDanio(int danio) {
         this.hp -= danio;
@@ -67,14 +63,23 @@ public abstract class Personaje {
     private boolean calcularVidaParaPocion() {
         return this.hp <= 10 && this.hp > 0; 
     }
-    
 
-    public void usarPocion() {
+    public abstract String getClase();
+
+    public void usarPocionAutomatico() {
         if (this.pocion != null && this.calcularVidaParaPocion()) { 
             int recuperacion = this.pocion.getRecuperacionHp(); 
             this.hp += recuperacion;
             this.pocion = null; 
             System.out.println(this.getNombre() + " ha usado una poción de salud! Tu vida ha aumentado en " + recuperacion + " puntos."); // Imprime el mensaje con la cantidad de recuperación guardada
+        }
+    }
+
+    public void usarPocion(){
+        if (this.pocion != null) {
+            int recuperación = this.pocion.getRecuperacionHp();
+            this.hp += recuperación;
+            this.pocion = null;
         }
     }
 
@@ -88,7 +93,7 @@ public abstract class Personaje {
             this.def += santuario.getBeneficioDefensa();
             System.out.println(this.getNombre()+" Ha encontrado un santuario! Tu defensa ha aumentado en " + santuario.getBeneficioDefensa() + " puntos. Gracias a "+ santuario.getNombre());
         }else{
-            System.out.println("Todo el camino ha estado despejado para." + this.getNombre());
+            System.out.println("Todo el camino ha estado despejado para " + this.getNombre());
         }
     }
     public abstract int calcularDanio(Personaje personaje);
